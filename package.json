@@ -1,0 +1,25 @@
+{
+  "name": "deutsch-lid-pipeline",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "scrape": "tsx scripts/scrape.ts",
+    "gen:words": "tsx scripts/generate-words.ts",
+    "gen:explanations": "tsx scripts/generate-explanations.ts",
+    "build:data": "tsx scripts/build-data.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.69.0",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "playwright": "^1.48.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  }
+}

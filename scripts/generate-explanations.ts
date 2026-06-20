@@ -35,4 +35,4 @@ async function main() {
   console.log(`Wrote ${final.length} questions with explanations`);
 }
 
-main();
+main().catch((e) => { console.error(e); process.exit(1); });

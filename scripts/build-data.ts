@@ -28,9 +28,23 @@ async function main() {
     console.error([...missing].slice(0, 50).join(", "));
     process.exit(1);
   }
+
+  // Gate: every alias value must point to an existing entry lemma.
+  const danglingAliases: string[] = [];
+  for (const [alias, lemma] of Object.entries(words.aliases)) {
+    if (!words.entries[lemma]) {
+      danglingAliases.push(`${alias} -> ${lemma}`);
+    }
+  }
+  if (danglingAliases.length > 0) {
+    console.error(`Dangling alias targets (alias -> missing lemma) — ${danglingAliases.length} found:`);
+    console.error(danglingAliases.slice(0, 50).join(", "));
+    process.exit(1);
+  }
+
   console.log(
-    `OK: ${questions.length} questions, ${Object.keys(words.entries).length} lemma entries, all words resolve.`,
+    `OK: ${questions.length} questions, ${Object.keys(words.entries).length} lemma entries, ${Object.keys(words.aliases).length} aliases — all words and aliases resolve.`,
   );
 }
 
-main();
+main().catch((e) => { console.error(e); process.exit(1); });

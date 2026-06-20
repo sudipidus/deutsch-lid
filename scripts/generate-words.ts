@@ -37,4 +37,4 @@ async function main() {
   console.log(`Wrote ${Object.keys(wordsFile.entries).length} lemma entries`);
 }
 
-main();
+main().catch((e) => { console.error(e); process.exit(1); });

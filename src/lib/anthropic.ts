@@ -12,7 +12,10 @@ export function createWordGenerator(client: Anthropic): GenerateWord {
   return async (occ) => {
     const res = await client.beta.messages.parse({
       model: MODEL,
+      // Gives adaptive thinking headroom; 1024 minimum leaves no room for output.
       max_tokens: 16000,
+      // "adaptive" is the correct wire value for Opus 4.8 but is not in @anthropic-ai/sdk 0.69.0's types yet;
+      // do NOT "fix" this to {type:"enabled"} (that would 400 on 4.8).
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       thinking: { type: "adaptive" } as any,
       messages: [{ role: "user", content: buildWordPrompt(occ) }],
@@ -32,6 +35,8 @@ export async function generateExplanation(
   const res = await client.messages.create({
     model: MODEL,
     max_tokens: 1024,
+    // "adaptive" is the correct wire value for Opus 4.8 but is not in @anthropic-ai/sdk 0.69.0's types yet;
+    // do NOT "fix" this to {type:"enabled"} (that would 400 on 4.8).
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     thinking: { type: "adaptive" } as any,
     messages: [{ role: "user", content: prompt }],

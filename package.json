@@ -12,7 +12,7 @@
     "build:data": "tsx scripts/build-data.ts"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.69.0",
+    "@anthropic-ai/sdk": "0.69.0",
     "zod": "^3.25.0"
   },
   "devDependencies": {

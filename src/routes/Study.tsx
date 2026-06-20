@@ -37,6 +37,7 @@ export function Study() {
         selected={selected}
         onSelect={(idx) => setAnswers((a) => ({ ...a, [key]: idx }))}
         reveal={selected !== null}
+        showTranslations
       />
       <div className="flex justify-between">
         <button type="button" disabled={i === 0} onClick={() => setI((n) => n - 1)} className="rounded-lg border px-4 py-2 disabled:opacity-40">Zurück</button>

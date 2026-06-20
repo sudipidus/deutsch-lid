@@ -25,6 +25,11 @@ export function Practice() {
         <Link to="/" className="text-stone-500">← Zurück</Link>
         <span className="text-sm text-stone-500">{i + 1} / {list.length}</span>
       </div>
+      {!bundesland && (
+        <p className="rounded-lg bg-amber-50 p-2 text-sm text-amber-800">
+          300 allgemeine Fragen. Wähle auf der <Link to="/" className="underline">Startseite</Link> dein Bundesland für die 10 landesbezogenen Fragen (insgesamt 310).
+        </p>
+      )}
       <QuestionCard
         question={q}
         interactive

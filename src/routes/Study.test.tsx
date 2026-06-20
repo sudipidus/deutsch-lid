@@ -6,12 +6,15 @@ import { describe, it, expect } from "vitest";
 import { Study } from "./Study.js";
 
 describe("Study", () => {
-  it("shows a question with its correct answer revealed and advances", async () => {
+  it("does not reveal until the user chooses, then reveals; advancing starts fresh", async () => {
     render(<MemoryRouter><Study /></MemoryRouter>);
-    // first general question's explanation is visible (reveal always true in Study)
+    // The correct answer is NOT pre-selected/graded — nothing revealed yet.
+    expect(screen.queryByText(/Erklärung/)).toBeNull();
+    // User chooses an answer → reveal (correct answer + explanation).
+    await userEvent.click(screen.getByRole("button", { name: "Auswählen A" }));
     expect(screen.getByText(/Erklärung/)).toBeTruthy();
-    const next = screen.getByRole("button", { name: /Weiter|Next/i });
-    await userEvent.click(next);
-    expect(screen.getByText(/Erklärung/)).toBeTruthy();
+    // Next question starts unrevealed again.
+    await userEvent.click(screen.getByRole("button", { name: /Weiter|Next/i }));
+    expect(screen.queryByText(/Erklärung/)).toBeNull();
   });
 });

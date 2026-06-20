@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { questions } from "../lib/data.js";
+import { questions, questionKey } from "../lib/data.js";
 import { useAppStore } from "../lib/store.js";
 import { QuestionCard } from "../components/QuestionCard.js";
 
@@ -11,7 +11,13 @@ export function Study() {
     [bundesland],
   );
   const [i, setI] = useState(0);
+  // Local, non-persisted choices: the learner picks an answer themselves and
+  // only then sees the correct one + explanation. (Practice mode is the
+  // persisted/graded variant.)
+  const [answers, setAnswers] = useState<Record<string, number>>({});
   const q = list[i];
+  const key = questionKey(q);
+  const selected = answers[key] ?? null;
 
   return (
     <div className="mx-auto max-w-md space-y-4 p-4">
@@ -19,7 +25,13 @@ export function Study() {
         <Link to="/" className="text-stone-500">← Zurück</Link>
         <span className="text-sm text-stone-500">{i + 1} / {list.length}</span>
       </div>
-      <QuestionCard question={q} interactive selected={q.answerIndex} onSelect={() => {}} reveal />
+      <QuestionCard
+        question={q}
+        interactive
+        selected={selected}
+        onSelect={(idx) => setAnswers((a) => ({ ...a, [key]: idx }))}
+        reveal={selected !== null}
+      />
       <div className="flex justify-between">
         <button type="button" disabled={i === 0} onClick={() => setI((n) => n - 1)} className="rounded-lg border px-4 py-2 disabled:opacity-40">Zurück</button>
         <button type="button" disabled={i === list.length - 1} onClick={() => setI((n) => n + 1)} className="rounded-lg border px-4 py-2 disabled:opacity-40">Weiter</button>

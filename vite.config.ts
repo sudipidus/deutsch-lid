@@ -9,5 +9,7 @@ export default defineConfig({
   test: {
     include: ["src/**/*.test.{ts,tsx}", "scripts/**/*.test.ts"],
     passWithNoTests: true,
+    globals: true,
+    setupFiles: ["./src/test-setup.ts"],
   },
 });

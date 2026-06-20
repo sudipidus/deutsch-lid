@@ -31,3 +31,15 @@ export function imageUrl(image: string): string {
 export const STATES: string[] = [
   ...new Set(questions.filter((q) => q.category === "state" && q.state).map((q) => q.state as string)),
 ].sort((a, b) => a.localeCompare(b, "de"));
+
+// Return a new array with the items in random order (Fisher-Yates). `rand` is
+// injectable so tests are deterministic; the app passes the default Math.random
+// so Study/Practice start somewhere different each session.
+export function shuffle<T>(items: T[], rand: () => number = Math.random): T[] {
+  const out = [...items];
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.floor(rand() * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+}

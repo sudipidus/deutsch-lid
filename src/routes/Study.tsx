@@ -1,13 +1,14 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { questions, questionKey } from "../lib/data.js";
+import { questions, questionKey, shuffle } from "../lib/data.js";
 import { useAppStore } from "../lib/store.js";
 import { QuestionCard } from "../components/QuestionCard.js";
 
 export function Study() {
   const bundesland = useAppStore((s) => s.bundesland);
+  // Shuffle once per visit so the session starts on a different question each time.
   const list = useMemo(
-    () => questions.filter((q) => q.category === "general" || q.state === bundesland),
+    () => shuffle(questions.filter((q) => q.category === "general" || q.state === bundesland)),
     [bundesland],
   );
   const [i, setI] = useState(0);

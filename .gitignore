@@ -2,3 +2,5 @@ node_modules/
 data/raw/
 data/images/
 .env
+.playwright-mcp/
+bamf-*.png

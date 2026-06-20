@@ -4,3 +4,4 @@ data/images/
 .env
 .playwright-mcp/
 bamf-*.png
+dist/

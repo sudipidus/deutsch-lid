@@ -23,9 +23,9 @@ describe("QuestionCard", () => {
   });
   it("shows the explanation only when reveal is true", () => {
     const { rerender } = render(<QuestionCard question={q} interactive selected={1} onSelect={vi.fn()} reveal={false} />);
-    expect(screen.queryByText(/ist die Verfassung/)).toBeNull();
+    expect(screen.queryByTestId("explanation")).toBeNull();
     rerender(<QuestionCard question={q} interactive selected={1} onSelect={vi.fn()} reveal />);
-    expect(screen.getByText(/ist die Verfassung/)).toBeTruthy();
+    expect(screen.getByTestId("explanation").textContent).toMatch(/ist die Verfassung/);
   });
   it("opens a word popover when a question word is tapped (interactive)", async () => {
     render(<QuestionCard question={q} interactive selected={null} onSelect={vi.fn()} reveal={false} />);

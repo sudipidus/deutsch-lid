@@ -61,9 +61,9 @@ export function QuestionCard({ question, interactive, selected, onSelect, reveal
         })}
       </ul>
       {reveal && (
-        <div className="rounded-xl bg-stone-50 p-3 text-stone-700">
+        <div data-testid="explanation" className="rounded-xl bg-stone-50 p-3 text-stone-700">
           <span className="font-medium">Erklärung: </span>
-          {question.explanation}
+          <TokenizedText text={question.explanation} interactive={interactive} onWordTap={onWordTap} />
         </div>
       )}
       {popoverWord && <WordPopover surface={popoverWord} onClose={() => setPopoverWord(null)} />}

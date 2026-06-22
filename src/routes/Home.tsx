@@ -24,7 +24,11 @@ export function Home() {
 
       <nav className="space-y-3">
         <Link to="/study" className="block rounded-xl border-2 border-stone-200 p-4 text-lg">📖 Lernen (Study)</Link>
-        <Link to="/practice" className="block rounded-xl border-2 border-stone-200 p-4 text-lg">✍️ Üben (Practice)</Link>
+        {bundesland ? (
+          <Link to="/practice" className="block rounded-xl border-2 border-stone-200 p-4 text-lg">✍️ Üben (33 Fragen)</Link>
+        ) : (
+          <span className="block rounded-xl border-2 border-stone-200 p-4 text-lg text-stone-400">✍️ Üben — erst Bundesland wählen</span>
+        )}
         {bundesland ? (
           <Link to="/test" className="block rounded-xl border-2 border-stone-800 bg-stone-800 p-4 text-lg text-white">🎯 Test (33 Fragen)</Link>
         ) : (

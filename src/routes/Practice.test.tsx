@@ -8,14 +8,20 @@ import { useAppStore } from "../lib/store.js";
 
 beforeEach(() => {
   localStorage.clear();
-  useAppStore.setState({ bundesland: null, practiceAnswers: {}, testHistory: [] });
+  useAppStore.setState({ bundesland: "Bayern", practiceAnswers: {}, testHistory: [] });
 });
 
-describe("Practice", () => {
-  it("reveals feedback only after an answer is chosen", async () => {
+describe("Practice mode", () => {
+  it("hides explanations while the mock exam is running", () => {
     render(<MemoryRouter><Practice /></MemoryRouter>);
-    expect(screen.queryByText(/Erklärung/)).toBeNull();              // hidden before answering
-    await userEvent.click(screen.getByRole("button", { name: "Auswählen A" })); // choose option A
-    expect(screen.getByText(/Erklärung/)).toBeTruthy();             // shown after answering
+    expect(screen.queryByText(/Erklärung/)).toBeNull();
+  });
+
+  it("grades 33 questions at the end without saving an official result", async () => {
+    render(<MemoryRouter><Practice /></MemoryRouter>);
+    await userEvent.click(screen.getByRole("button", { name: /auswerten/i }));
+    expect(screen.getByText(/\/ 33/)).toBeTruthy();
+    // practice runs are repeatable and must not pollute the official history
+    expect(useAppStore.getState().testHistory).toHaveLength(0);
   });
 });

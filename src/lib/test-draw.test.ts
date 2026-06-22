@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { drawTest, scoreTest, PASS_THRESHOLD, TEST_SIZE } from "./test-draw.js";
+import { drawTest, scoreTest, shuffleOptions, PASS_THRESHOLD, TEST_SIZE } from "./test-draw.js";
 import { questionKey } from "./data.js";
 import type { Question } from "./schemas.js";
 
@@ -21,6 +21,17 @@ describe("drawTest", () => {
     const stateQs = drawn.filter((q) => q.category === "state");
     expect(stateQs).toHaveLength(3);
     expect(stateQs.every((q) => q.state === "Bayern")).toBe(true);
+  });
+});
+
+describe("shuffleOptions", () => {
+  it("permutes options while answerIndex keeps pointing at the correct text", () => {
+    const q = mk(1, "general", null, 2); // options ["a","b","c","d"], correct = "c"
+    let seq = 0;
+    const rand = () => [0.9, 0.1, 0.8][seq++ % 3]; // non-trivial permutation
+    const shuffled = shuffleOptions(q, rand);
+    expect([...shuffled.options].sort()).toEqual(["a", "b", "c", "d"]); // same set
+    expect(shuffled.options[shuffled.answerIndex]).toBe("c"); // correct text preserved
   });
 });
 

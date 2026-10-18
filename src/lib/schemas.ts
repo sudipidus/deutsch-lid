@@ -13,6 +13,12 @@ export const QuestionSchema = z.object({
   translationEn: z
     .object({ question: z.string(), options: z.array(z.string()) })
     .optional(),
+  // Deeper context shown on reveal: a few sentences of civic/historical
+  // background, bilingual (German + English). Authored separately and merged
+  // in from data/backgrounds.json (see scripts/apply-backgrounds.ts).
+  background: z
+    .object({ de: z.string().min(1), en: z.string().min(1) })
+    .optional(),
 });
 export type Question = z.infer<typeof QuestionSchema>;
 

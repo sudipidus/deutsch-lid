@@ -8,7 +8,8 @@ Installable as a PWA and fully usable offline.
 ## Modes
 
 - **📖 Lernen (Study)** — browse questions with the answer shown, plus a bilingual (DE + EN)
-  explanation and a literal English translation of the question and options. Every German word
+  explanation, a deeper bilingual **Hintergrund / Background** section with civic & historical
+  context, and a literal English translation of the question and options. Every German word
   is tappable for a dictionary popover.
 - **✍️ Üben (Practice)** — a fully randomized 33-question graded mock exam with immediate
   feedback per question. Progress is persisted.
@@ -18,9 +19,15 @@ Installable as a PWA and fully usable offline.
 Pick your **Bundesland** on the home screen — Practice and Test need it to draw the 3 state
 questions.
 
+On mobile, the **Zurück / Weiter** controls are pinned to the bottom of the screen (no more
+scrolling to the end of a long card to advance); ← / → also navigate on desktop. The Home screen
+offers a downloadable **EPUB** of all 460 questions as a flashcard book.
+
 ## Content
 
 - 460 questions: 300 general + 160 state-specific (10 per Bundesland)
+- Every question carries a bilingual (DE + EN) explanation **and** a deeper bilingual background
+  (`data/backgrounds.json`, merged in via `npm run apply:backgrounds`)
 - 1,728 dictionary entries reachable through 2,064 surface-form aliases
 - Explanations and word entries are generated with the Anthropic API (see `scripts/`)
 
@@ -46,10 +53,16 @@ the scripts in `scripts/` — each is resumable via a manifest in `data/raw/`:
 npm run import            # normalize source questions + download images
 npm run gen:explanations  # bilingual explanations (Anthropic API)
 npm run gen:words         # dictionary entries for every word used
+npm run apply:backgrounds # merge data/backgrounds.json into questions.json
 npm run build:data        # validate + assemble the final JSON
+npm run build:epub        # build the EPUB flashcard book → public/
 ```
+
+`data/backgrounds.json` is hand-authored (not API-generated) and keyed by `category:id:state`, so
+it survives a full `gen:explanations` rerun — the pipeline re-applies it automatically.
 
 ## Deployment
 
-Pushes to `main` run `.github/workflows/deploy.yml`, which tests, builds, and publishes `dist/`
-to GitHub Pages at the link above. The app is served under the `/deutsch-lid/` base path.
+Pushes to `main` run `.github/workflows/deploy.yml`, which tests, builds the EPUB, builds the app,
+and publishes `dist/` to GitHub Pages at the link above. The app is served under the
+`/deutsch-lid/` base path.

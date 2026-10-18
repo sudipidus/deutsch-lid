@@ -27,6 +27,19 @@ describe("QuestionCard", () => {
     rerender(<QuestionCard question={q} interactive selected={1} onSelect={vi.fn()} reveal />);
     expect(screen.getByTestId("explanation").textContent).toMatch(/ist die Verfassung/);
   });
+  it("shows the bilingual background only when reveal is true, if present", () => {
+    const withBg: Question = { ...q, background: { de: "Historischer Hintergrund.", en: "Historical background." } };
+    const { rerender } = render(<QuestionCard question={withBg} interactive selected={1} onSelect={vi.fn()} reveal={false} />);
+    expect(screen.queryByTestId("background")).toBeNull();
+    rerender(<QuestionCard question={withBg} interactive selected={1} onSelect={vi.fn()} reveal />);
+    const bg = screen.getByTestId("background");
+    expect(bg.textContent).toMatch(/Historischer Hintergrund/);
+    expect(bg.textContent).toMatch(/Historical background/);
+  });
+  it("omits the background block when the question has none", () => {
+    render(<QuestionCard question={q} interactive selected={1} onSelect={vi.fn()} reveal />);
+    expect(screen.queryByTestId("background")).toBeNull();
+  });
   it("opens a word popover when a question word is tapped (interactive)", async () => {
     render(<QuestionCard question={q} interactive selected={null} onSelect={vi.fn()} reveal={false} />);
     await userEvent.click(screen.getByRole("button", { name: "Grundgesetz" }));

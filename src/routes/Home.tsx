@@ -35,6 +35,14 @@ export function Home() {
           <span className="block rounded-xl border-2 border-stone-200 p-4 text-lg text-stone-400">🎯 Test — erst Bundesland wählen</span>
         )}
       </nav>
+
+      <a
+        href={`${import.meta.env.BASE_URL}leben-in-deutschland.epub`}
+        download
+        className="block rounded-xl border border-stone-200 p-3 text-center text-sm text-stone-600"
+      >
+        📙 Alle 460 Fragen als E-Book (EPUB) laden
+      </a>
     </div>
   );
 }

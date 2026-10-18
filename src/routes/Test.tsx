@@ -4,6 +4,7 @@ import { questions, questionKey } from "../lib/data.js";
 import { drawTest, scoreTest, TEST_SIZE } from "../lib/test-draw.js";
 import { useAppStore } from "../lib/store.js";
 import { QuestionCard } from "../components/QuestionCard.js";
+import { QuizNav } from "../components/QuizNav.js";
 
 type Phase = "running" | "result" | "review";
 
@@ -64,17 +65,16 @@ export function Test() {
         onSelect={(idx) => !reviewing && setAnswers((a) => ({ ...a, [key]: idx }))}
         reveal={reviewing}
       />
-      <div className="flex items-center justify-between">
-        <button type="button" disabled={i === 0} onClick={() => setI((n) => n - 1)} className="rounded-lg border px-4 py-2 disabled:opacity-40">Zurück</button>
-        {!reviewing && i === TEST_SIZE - 1 ? (
-          <button type="button" onClick={submit} className="rounded-lg bg-stone-800 px-4 py-2 text-white">Test auswerten</button>
-        ) : (
-          <button type="button" disabled={i === TEST_SIZE - 1} onClick={() => setI((n) => n + 1)} className="rounded-lg border px-4 py-2 disabled:opacity-40">Weiter</button>
-        )}
-      </div>
-      {!reviewing && (
-        <button type="button" onClick={submit} className="w-full rounded-lg border border-stone-300 py-2 text-stone-600">Jetzt auswerten</button>
-      )}
+      <QuizNav
+        onPrev={() => setI((n) => n - 1)}
+        onNext={() => setI((n) => n + 1)}
+        prevDisabled={i === 0}
+        nextDisabled={i === TEST_SIZE - 1}
+        onSubmit={!reviewing && i === TEST_SIZE - 1 ? submit : undefined}
+        submitLabel="Test auswerten"
+        secondaryLabel={!reviewing ? "Jetzt auswerten" : undefined}
+        onSecondary={!reviewing ? submit : undefined}
+      />
     </div>
   );
 }

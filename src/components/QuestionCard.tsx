@@ -82,6 +82,18 @@ export function QuestionCard({ question, interactive, selected, onSelect, reveal
             <span className="font-medium">{question.explanationDe ? "Explanation: " : "Erklärung: "}</span>
             <TokenizedText text={question.explanation} interactive={interactive} onWordTap={onWordTap} />
           </p>
+          {question.background && (
+            <div data-testid="background" className="mt-2 border-t border-stone-200 pt-2">
+              <p>
+                <span className="font-medium">Hintergrund: </span>
+                <TokenizedText text={question.background.de} interactive={interactive} onWordTap={onWordTap} />
+              </p>
+              <p className="mt-1 text-sm text-stone-500">
+                <span className="font-medium">Background: </span>
+                <TokenizedText text={question.background.en} interactive={interactive} onWordTap={onWordTap} />
+              </p>
+            </div>
+          )}
         </div>
       )}
       {popoverWord && <WordPopover surface={popoverWord} onClose={() => setPopoverWord(null)} />}

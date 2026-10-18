@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { questions, questionKey, shuffle } from "../lib/data.js";
 import { useAppStore } from "../lib/store.js";
 import { QuestionCard } from "../components/QuestionCard.js";
+import { QuizNav } from "../components/QuizNav.js";
 
 export function Study() {
   const bundesland = useAppStore((s) => s.bundesland);
@@ -39,10 +40,12 @@ export function Study() {
         reveal={selected !== null}
         showTranslations
       />
-      <div className="flex justify-between">
-        <button type="button" disabled={i === 0} onClick={() => setI((n) => n - 1)} className="rounded-lg border px-4 py-2 disabled:opacity-40">Zurück</button>
-        <button type="button" disabled={i === list.length - 1} onClick={() => setI((n) => n + 1)} className="rounded-lg border px-4 py-2 disabled:opacity-40">Weiter</button>
-      </div>
+      <QuizNav
+        onPrev={() => setI((n) => n - 1)}
+        onNext={() => setI((n) => n + 1)}
+        prevDisabled={i === 0}
+        nextDisabled={i === list.length - 1}
+      />
     </div>
   );
 }
